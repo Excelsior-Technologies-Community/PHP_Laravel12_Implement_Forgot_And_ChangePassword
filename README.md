@@ -263,12 +263,11 @@ return new class extends Migration
 php artisan migrate
 
 ```
-
-```
 ✅ Database tables created:
 
 customers
 password_resets
+```
 
 ```
 👤 Step 4: Customer Model
