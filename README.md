@@ -69,12 +69,12 @@ laravel12-forget-change-password
 └── .env
 
 
-yaml
-Copy code
-
----
+```
 
 ## 🔐 Main Features
+
+```bash
+
 
 ### 1️⃣ Forgot Password (Customer)
 
@@ -111,17 +111,17 @@ Copy code
 ✔ Only accessible when logged in  
 
 ---
-
+```
 ## 🧱 Step 1: Create Laravel 12 Project
 
 ```bash
 composer create-project laravel/laravel laravel12-forget-change-password "12.*"
 cd laravel12-forget-change-password
 
-
+```
 🗄 Step 2: Configure Database (.env)
-makefile
-Copy code
+```
+
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
