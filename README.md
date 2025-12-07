@@ -34,41 +34,37 @@ We reuse concepts from Laravel 11, but implement everything properly in Laravel 
 
 laravel12-forget-change-password
 ├── app
-│ ├── Http
-│ │ ├── Controllers
-│ │ │ └── Customer
-│ │ │ ├── AuthController.php
-│ │ │ └── PasswordController.php
-│ ├── Mail
-│ │ └── ResetPasswordMail.php
-│ └── Models
-│ └── Customer.php
+│   ├── Http
+│   │   ├── Controllers
+│   │   │   └── Customer
+│   │   │       ├── AuthController.php
+│   │   │       └── PasswordController.php
+│   ├── Mail
+│   │   └── ResetPasswordMail.php
+│   └── Models
+│       └── Customer.php
 │
 ├── database
-│ ├── migrations
-│ │ └── 2025_xx_xx_create_customers_table.php
-│ └── (customers + password_resets table)
-│ │
+│   ├── migrations
+│   │   └── 2025_xx_xx_create_customers_table.php
+│          └── (customers + password_resets table)
+│   │
 ├── resources
-│ └── views
-│ ├── customer
-│ │ └── auth
-│ │ ├── login.blade.php
-│ │ ├── register.blade.php
-│ │ ├── dashboard.blade.php
-│ │ ├── forgot-password.blade.php
-│ │ ├── reset-password.blade.php
-│ │ └── change-password.blade.php
-│ └── emails
-│ └── reset-password.blade.php
+│   └── views
+│       ├── customer
+│       │   └── auth
+│       │       ├── login.blade.php
+│       │       ├── register.blade.php
+│       │       ├── dashboard.blade.php
+│       │       ├── forgot-password.blade.php
+│       │       ├── reset-password.blade.php
+│       │       └── change-password.blade.php
+│       └── emails
+│           └── reset-password.blade.php
 │
 ├── routes
-│ └── web.php
+│   └── web.php
 └── .env
-
-yaml
-Copy code
-
 ---
 
 ## 🔐 Main Features
@@ -114,6 +110,7 @@ Copy code
 ```bash
 composer create-project laravel/laravel laravel12-forget-change-password "12.*"
 cd laravel12-forget-change-password
+
 
 🗄 Step 2: Configure Database (.env)
 makefile
