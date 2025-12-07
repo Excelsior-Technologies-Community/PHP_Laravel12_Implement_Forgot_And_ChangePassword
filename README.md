@@ -133,6 +133,7 @@ forget_change_password
 
 ```
 
+```
 🧱 Step 3: Migration
 
 ✅ This migration creates TWO tables: customers and password_resets.
