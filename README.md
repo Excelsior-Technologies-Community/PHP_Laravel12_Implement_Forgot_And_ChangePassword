@@ -267,9 +267,7 @@ php artisan migrate
 
 customers
 password_resets
-```
 
-```
 👤 Step 4: Customer Model
 
 ```
