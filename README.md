@@ -35,18 +35,20 @@ We reuse concepts from Laravel 11, but implement everything properly in Laravel 
 laravel12-forget-change-password
 ├── app
 │   ├── Http
-│   │   └── Controllers
-│   │       └── Customer
-│   │           ├── AuthController.php
-│   │           └── PasswordController.php
+│   │   ├── Controllers
+│   │   │   └── Customer
+│   │   │       ├── AuthController.php
+│   │   │       └── PasswordController.php
 │   ├── Mail
 │   │   └── ResetPasswordMail.php
 │   └── Models
 │       └── Customer.php
+│
 ├── database
-│   └── migrations
-│       └── 2025_xx_xx_create_customers_table.php
-│       └── 2025_xx_xx_create_password_resets_table.php
+│   ├── migrations
+│   │   └── 2025_xx_xx_create_customers_table.php
+│          └── (customers + password_resets table)
+│   │
 ├── resources
 │   └── views
 │       ├── customer
@@ -59,6 +61,7 @@ laravel12-forget-change-password
 │       │       └── change-password.blade.php
 │       └── emails
 │           └── reset-password.blade.php
+│
 ├── routes
 │   └── web.php
 └── .env
