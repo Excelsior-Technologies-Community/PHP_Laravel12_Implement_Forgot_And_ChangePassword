@@ -356,11 +356,11 @@ config/auth.php
 🧠 Step 6: Create Controllers
 ```
 
-✅ Create Controllers
-
-```
 php artisan make:controller Customer/AuthController
 php artisan make:controller Customer/PasswordController
+
+```
+
 ```
 
 ✅ AuthController.php → Handles Register, Login, Dashboard, Logout
@@ -1139,11 +1139,11 @@ Uses Tailwind CSS for a clean, responsive, and modern UI.
 ```
 📧 Step 8: Mail Class
 ```
-
-```
 php artisan make:mail ResetPasswordMail
+
 ```
 
+```
 FIle: app/Mail/ResetPasswordMail.php
 
 <?php
@@ -1426,7 +1426,7 @@ Route::prefix('customer')->group(function () {
 
 ```
 ✅ Final Result
-```
+
 
 ✔ Fully working customer authentication
 ✔ Forgot password with email
@@ -1437,4 +1437,4 @@ Route::prefix('customer')->group(function () {
 
 Your laravel12-forget-change-password project is now fully implemented
 
-
+```
