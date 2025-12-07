@@ -127,10 +127,12 @@ DB_DATABASE=forget_change_password
 DB_USERNAME=root
 DB_PASSWORD=
 
-✅ Create database manually in phpMyAdmin:
-forget_change_password
+```
+✅ Create database manually in phpMyAdmin: 
+forget_change_password  
 
 ```
+
 🧱 Step 3: Migration
 
 ✅ This migration creates TWO tables: customers and password_resets.
@@ -253,8 +255,6 @@ return new class extends Migration
 👉 Run migration:
 ```
 php artisan migrate
-
-```
 
 ```
 
