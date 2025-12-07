@@ -251,8 +251,10 @@ return new class extends Migration
 
 ```
 👉 Run migration:
-
+```
 php artisan migrate
+
+```
 
 ```
 
@@ -263,10 +265,13 @@ password_resets
 
 ```
 👤 Step 4: Customer Model
+
+```
 php artisan make:model Customer
 
 ```
 
+```
 <?php
 
 namespace App\Models;
