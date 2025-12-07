@@ -103,18 +103,16 @@ Customer logs in
 → System validates current password
 → Password updated securely
 
-yaml
-Copy code
 
 ✔ Current password validation  
 ✔ Secure hashing  
 ✔ Only accessible when logged in  
 
----
+
 ```
 ## 🧱 Step 1: Create Laravel 12 Project
-
 ```bash
+
 composer create-project laravel/laravel laravel12-forget-change-password "12.*"
 cd laravel12-forget-change-password
 
@@ -132,9 +130,12 @@ DB_PASSWORD=
 ✅ Create database manually in phpMyAdmin:
 forget_change_password
 
+```
 🧱 Step 3: Migration
 
 ✅ This migration creates TWO tables: customers and password_resets.
+
+```
 
 <?php
 
@@ -248,16 +249,23 @@ return new class extends Migration
     }
 };
 
+```
 👉 Run migration:
 
 php artisan migrate
+
+```
+
 ✅ Database tables created:
 
 customers
 password_resets
 
+```
 👤 Step 4: Customer Model
 php artisan make:model Customer
+
+```
 
 <?php
 
@@ -324,7 +332,9 @@ class Customer extends Authenticatable
     protected $guard = 'customer';
 }
 
+```
 🔐 Step 5: Authentication Guard (Customer)
+```
 
 config/auth.php
 
@@ -342,12 +352,15 @@ config/auth.php
     ],
 ],
 
+```
 🧠 Step 6: Create Controllers
-
+```
 ✅ Create Controllers
 
+```
 php artisan make:controller Customer/AuthController
 php artisan make:controller Customer/PasswordController
+```
 
 ✅ AuthController.php → Handles Register, Login, Dashboard, Logout
 ✅ PasswordController.php → Handles Forgot Password, Reset Password, Change Password
@@ -694,8 +707,9 @@ class PasswordController extends Controller
     }
 }
 
+```
 📝 Step 7: Views
-
+```
 We need to create all Blade files for customer auth.
 
 1️⃣ register.blade.php
@@ -1121,12 +1135,13 @@ Uses Tailwind CSS for a clean, responsive, and modern UI.
 </body>
 </html>
 
-
-
-
+```
 📧 Step 8: Mail Class
+```
 
+```
 php artisan make:mail ResetPasswordMail
+```
 
 FIle: app/Mail/ResetPasswordMail.php
 
@@ -1192,10 +1207,10 @@ class ResetPasswordMail extends Mailable
 }
 
 
-
+```
 ✉️ Mail Configuration (IMPORTANT)
-
 .env
+```
 
 MAIL_MAILER=smtp
 MAIL_HOST=smtp.gmail.com
@@ -1210,8 +1225,9 @@ MAIL_FROM_NAME="Customer App"
 🔴 MAIL_MAILER=log will NOT send email
 ✅ Use SMTP for real email (Gmail / Mailtrap)
 
-
+```
 📧 Step 9: Email View (Professional)
+```
 
 resources/views/emails/reset-password.blade.php
 
@@ -1286,8 +1302,9 @@ Styled with inline CSS and tables to ensure proper display across all email clie
 </body>
 </html>
 
-
+```
 🧭 Step 10: Routes (routes/web.php)
+```
 
 <?php
 
@@ -1406,8 +1423,9 @@ Route::prefix('customer')->group(function () {
         ->name('customer.reset.submit');
 });
 
+```
 ✅ Final Result
-
+```
 ✔ Fully working customer authentication
 ✔ Forgot password with email
 ✔ Secure change password
@@ -1416,3 +1434,4 @@ Route::prefix('customer')->group(function () {
 🎉 Project Complete
 
 Your laravel12-forget-change-password project is now fully implemented
+
