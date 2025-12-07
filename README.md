@@ -129,9 +129,14 @@ DB_PASSWORD=
 
 ```
 ✅ Create database manually in phpMyAdmin: 
-forget_change_password  
-
 ```
+
+forget_change_password
+ 
+```
+otherwise
+```
+php artisan migrate
 
 ```
 🧱 Step 3: Migration
