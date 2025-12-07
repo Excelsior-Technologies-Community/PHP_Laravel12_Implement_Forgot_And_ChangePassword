@@ -117,12 +117,7 @@ Copy code
 composer create-project laravel/laravel laravel12-forget-change-password "12.*"
 cd laravel12-forget-change-password
 
----
-
 🗄 Step 2: Configure Database (.env)
-
-```bash
-
 makefile
 Copy code
 DB_CONNECTION=mysql
