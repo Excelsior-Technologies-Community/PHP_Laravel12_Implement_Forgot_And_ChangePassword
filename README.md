@@ -264,6 +264,7 @@ php artisan migrate
 
 ```
 
+```
 ✅ Database tables created:
 
 customers
