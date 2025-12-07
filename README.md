@@ -1437,4 +1437,3 @@ Route::prefix('customer')->group(function () {
 
 Your laravel12-forget-change-password project is now fully implemented
 
-```
