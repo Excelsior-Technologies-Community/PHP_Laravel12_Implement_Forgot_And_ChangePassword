@@ -116,6 +116,7 @@ Copy code
 ```bash
 composer create-project laravel/laravel laravel12-forget-change-password "12.*"
 cd laravel12-forget-change-password
+
 🗄 Step 2: Configure Database (.env)
 makefile
 Copy code
@@ -1413,9 +1414,3 @@ Route::prefix('customer')->group(function () {
 🎉 Project Complete
 
 Your laravel12-forget-change-password project is now fully implemented
-
-
-
-
-🧱 Step 3: Migration
-✅ This migration creates TWO tables: customers and password_resets.
