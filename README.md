@@ -1,4 +1,4 @@
-# ✅ PHP_Laravel12_Implement_Forgot_And_ChangePassword
+# PHP_Laravel12_Implement_Forgot_And_ChangePassword
 ---
 
 ## ⭐ Introduction
