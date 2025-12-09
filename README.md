@@ -1,5 +1,4 @@
-# ✅ laravel12-forget-change-password
-
+# ✅ PHP_Laravel12_Implement_Forgot_And_ChangePassword
 ---
 
 ## ⭐ Introduction
@@ -34,7 +33,7 @@ We reuse concepts from Laravel 11, but implement everything properly in Laravel 
 
 ```bash
 
-laravel12-forget-change-password
+PHP_Laravel12_Implement_Forgot_And_ChangePassword
 ├── app
 │   ├── Http
 │   │   ├── Controllers
@@ -113,8 +112,8 @@ Customer logs in
 ## 🧱 Step 1: Create Laravel 12 Project
 ```bash
 
-composer create-project laravel/laravel laravel12-forget-change-password "12.*"
-cd laravel12-forget-change-password
+composer create-project laravel/laravel PHP_Laravel12_Implement_Forgot_And_ChangePassword "12.*"
+cd PHP_Laravel12_Implement_Forgot_And_ChangePassword
 
 ```
 🗄 Step 2: Configure Database (.env)
@@ -1444,5 +1443,5 @@ Route::prefix('customer')->group(function () {
 
 🎉 Project Complete
 
-Your laravel12-forget-change-password project is now fully implemented
+Your PHP_Laravel12_Implement_Forgot_And_ChangePassword project is now fully implemented
 
