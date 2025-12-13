@@ -1,7 +1,7 @@
 # PHP_Laravel12_Implement_Forgot_And_ChangePassword
 ---
 
-## ⭐ Introduction
+## Introduction
 
 The main purpose of this project is to implement **Forgot Password** and **Change Password** functionality for a custom Customer authentication system in Laravel 12.
 
@@ -9,27 +9,27 @@ To properly demonstrate and test these features, we also include basic authentic
 
 ---
 
-## ✅ Features Included
+## Features Included
 
 - Customer Registration (supporting feature)  
 - Customer Login / Logout (supporting feature)  
 - Customer Dashboard (supporting feature)  
-- Forgot Password (Email Reset Link) ✅ (Main Feature)  
-- Reset Password using Token ✅ (Main Feature)  
-- Change Password (Logged-in Customer) ✅ (Main Feature)  
+- Forgot Password (Email Reset Link)  (Main Feature)  
+- Reset Password using Token  (Main Feature)  
+- Change Password (Logged-in Customer)  (Main Feature)  
 
 This project is:  
 
-✅ Simple and clean  
-✅ Perfect for freshers  
-✅ Interview-focused  
-✅ Based on real-world Laravel authentication logic  
+- Simple and clean  
+- Perfect for freshers  
+- Interview-focused  
+- Based on real-world Laravel authentication logic  
 
 We reuse concepts from Laravel 11, but implement everything properly in Laravel 12 with a new project name and clean structure.
 
 ---
 
-## 🧱 Project Structure Overview
+##  Project Structure Overview
 
 ```bash
 
@@ -70,53 +70,64 @@ PHP_Laravel12_Implement_Forgot_And_ChangePassword
 
 ```
 
-## 🔐 Main Features
+##  Main Features
 
 ```bash
 
 
-### 1️⃣ Forgot Password (Customer)
+### 1️. Forgot Password (Customer)
 
 Flow:
 
 Customer forgets password
+
 → Enters email address
+
 → System generates reset token
+
 → Reset link sent via email
+
 → Customer creates new password
 
-csharp
-Copy code
 
-✔ Token is stored securely  
-✔ Email-based verification  
-✔ Works only for valid customers  
 
-### 2️⃣ Change Password (Customer)
+- Token is stored securely
+
+- Email-based verification
+
+- Works only for valid customers  
+
+### 2️. Change Password (Customer)
 
 Flow:
 
 Customer logs in
+
 → Enters current password
+
 → Enters new password
+
 → System validates current password
+
 → Password updated securely
 
 
-✔ Current password validation  
-✔ Secure hashing  
-✔ Only accessible when logged in  
+- Current password validation
+
+- Secure hashing
+
+- Only accessible when logged in  
 
 
 ```
-## 🧱 Step 1: Create Laravel 12 Project
+##  Step 1: Create Laravel 12 Project
 ```bash
 
 composer create-project laravel/laravel PHP_Laravel12_Implement_Forgot_And_ChangePassword "12.*"
 cd PHP_Laravel12_Implement_Forgot_And_ChangePassword
 
 ```
-🗄 Step 2: Configure Database (.env)
+## Step 2: Configure Database (.env)
 ```
 
 DB_CONNECTION=mysql
@@ -127,7 +138,7 @@ DB_USERNAME=root
 DB_PASSWORD=
 
 ```
-✅ Create database manually in phpMyAdmin: 
+Create database manually in phpMyAdmin: 
 ```
 
 forget_change_password
@@ -138,9 +149,13 @@ otherwise
 php artisan migrate
 
 ```
-🧱 Step 3: Migration
+## Step 3: Migration
 
-✅ This migration creates TWO tables: customers and password_resets.
+This migration creates TWO tables: customers and password_resets.
+
+```
+php artisan make:migration create_customers_table
+```
 
 ```
 
@@ -257,17 +272,17 @@ return new class extends Migration
 };
 
 ```
-👉 Run migration:
+Run migration:
 ```
 php artisan migrate
 
 ```
-✅ Database tables created:
+Database tables created:
 
 customers
 password_resets
 
-👤 Step 4: Customer Model
+## Step 4: Customer Model
 
 ```
 php artisan make:model Customer
@@ -341,7 +356,7 @@ class Customer extends Authenticatable
 }
 
 ```
-🔐 Step 5: Authentication Guard (Customer)
+## Step 5: Authentication Guard (Customer)
 ```
 
 config/auth.php
@@ -361,7 +376,7 @@ config/auth.php
 ],
 
 ```
-🧠 Step 6: Create Controllers
+## Step 6: Create Controllers
 ```
 
 php artisan make:controller Customer/AuthController
@@ -369,15 +384,16 @@ php artisan make:controller Customer/PasswordController
 
 ```
 
-```
 
-✅ AuthController.php → Handles Register, Login, Dashboard, Logout
-✅ PasswordController.php → Handles Forgot Password, Reset Password, Change Password
+AuthController.php → Handles Register, Login, Dashboard, Logout
+ 
+PasswordController.php → Handles Forgot Password, Reset Password, Change Password
 
-✅ AuthController (Register / Login / Dashboard / Logout)
+AuthController (Register / Login / Dashboard / Logout)
+---
 
 File: app/Http/Controllers/Customer/AuthController.php
-
+```
 <?php
 
 namespace App\Http\Controllers\Customer;
@@ -501,29 +517,30 @@ class AuthController extends Controller
     }
 }
 
-
-🔐 PasswordController
+```
+PasswordController
+---
 
 File: app/Http/Controllers/Customer/PasswordController.php
  
-Forgot Password
+- Forgot Password
 
-✔ Validates customer email
-✔ Generates token
-✔ Stores token in database
-✔ Sends reset email
+ Validates customer email
+ Generates token
+ Stores token in database
+ Sends reset email
 
-Reset Password
+- Reset Password
 
-✔ Validates token
-✔ Updates password
-✔ Deletes token
+ Validates token
+ Updates password
+ Deletes token
 
-Change Password
+- Change Password
 
-✔ Current password validation
-✔ Secure password update
-
+ Current password validation
+ Secure password update
+```
 <?php
 
 namespace App\Http\Controllers\Customer;
@@ -717,11 +734,13 @@ class PasswordController extends Controller
 }
 
 ```
-📝 Step 7: Views
-```
+Step 7: Views
+---
+
 We need to create all Blade files for customer auth.
 
-1️⃣ register.blade.php
+1️) register.blade.php
+---
 
 File: resources/views/customer/auth/register.blade.php
 
@@ -731,6 +750,7 @@ It handles displaying validation errors and success messages.
 
 The form sends a POST request to customer.register.submit and includes CSRF protection.
 
+```
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -808,8 +828,10 @@ The form sends a POST request to customer.register.submit and includes CSRF prot
     </div>
 </body>
 </html>
+```
 
-2️⃣ login.blade.php
+2️) login.blade.php
+---
 
 File: resources/views/customer/auth/login.blade.php
 
@@ -818,6 +840,7 @@ This is the Customer Login page styled with Tailwind CSS.
 It shows validation errors, success messages, and includes a Forgot Password link.
 
 The form posts to customer.login.submit with CSRF protection.
+```
 
 <!DOCTYPE html>
 <html lang="en">
@@ -882,8 +905,9 @@ The form posts to customer.login.submit with CSRF protection.
     </div>
 </body>
 </html>
-
-3️⃣ dashboard.blade.php
+```
+3️) dashboard.blade.php
+---
 
 File: resources/views/customer/auth/dashboard.blade.php
 
@@ -892,6 +916,7 @@ This is the Customer Dashboard page, showing a welcome message with the logged-i
 It provides links to Change Password and Logout, ensuring easy navigation.
 
 The layout is simple, responsive, and styled with Tailwind CSS.
+```
 
 <!DOCTYPE html>
 <html lang="en">
@@ -930,8 +955,9 @@ The layout is simple, responsive, and styled with Tailwind CSS.
 
 </body>
 </html>
-
-4️⃣ forgot-password.blade.php
+```
+4️) forgot-password.blade.php
+---
 
 File: resources/views/customer/auth/forgot-password.blade.php
 
@@ -940,7 +966,7 @@ This page allows the customer to enter their email to request a password reset l
 It shows validation errors or a success message when the reset email is sent.
 
 The layout is responsive and clean, using Tailwind CSS.
-
+```
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -993,8 +1019,9 @@ The layout is responsive and clean, using Tailwind CSS.
 </body>
 </html>
 
-
-5️⃣ reset-password.blade.php
+```
+5️) reset-password.blade.php
+---
 
 File: resources/views/customer/auth/reset-password.blade.php
 
@@ -1003,7 +1030,7 @@ This page allows the customer to enter a new password and confirm it using the t
 Hidden inputs ensure the token and email are submitted securely for verification.
 
 Shows validation errors or success messages, styled with Tailwind CSS for a clean look.
-
+```
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1066,9 +1093,10 @@ Shows validation errors or success messages, styled with Tailwind CSS for a clea
 
 </body>
 </html>
+```
 
-
-6️⃣ change-password.blade.php
+6️) change-password.blade.php
+---
 
 File: resources/views/customer/auth/change-password.blade.php
 
@@ -1077,7 +1105,7 @@ This page allows the customer to change their current password by entering the c
 Shows validation errors or success messages to guide the user.
 
 Uses Tailwind CSS for a clean, responsive, and modern UI.
-
+```
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1145,15 +1173,14 @@ Uses Tailwind CSS for a clean, responsive, and modern UI.
 </html>
 
 ```
-📧 Step 8: Mail Class
+Step 8: Mail Class
+
 ```
 php artisan make:mail ResetPasswordMail
-
 ```
 
-```
 FIle: app/Mail/ResetPasswordMail.php
-
+```
 <?php
 
 namespace App\Mail;
@@ -1217,7 +1244,7 @@ class ResetPasswordMail extends Mailable
 
 
 ```
-✉️ Mail Configuration (IMPORTANT)
+Mail Configuration (IMPORTANT)
 .env
 ```
 
@@ -1230,13 +1257,8 @@ MAIL_ENCRYPTION=tls
 MAIL_FROM_ADDRESS=your@gmail.com
 MAIL_FROM_NAME="Customer App"
 
-
-🔴 MAIL_MAILER=log will NOT send email
-✅ Use SMTP for real email (Gmail / Mailtrap)
-
 ```
-📧 Step 9: Email View (Professional)
-```
+Step 9: Email View (Professional)
 
 resources/views/emails/reset-password.blade.php
 
@@ -1245,6 +1267,7 @@ This email template sends a password reset link to the customer’s email.
 Includes a clear header, instructions, a reset button, and a security notice.
 
 Styled with inline CSS and tables to ensure proper display across all email clients.
+```
 
 <!DOCTYPE html>
 <html lang="en">
@@ -1312,7 +1335,7 @@ Styled with inline CSS and tables to ensure proper display across all email clie
 </html>
 
 ```
-🧭 Step 10: Routes (routes/web.php)
+Step 10: Routes (routes/web.php)
 ```
 
 <?php
@@ -1433,15 +1456,67 @@ Route::prefix('customer')->group(function () {
 });
 
 ```
-✅ Final Result
+# Output:
+---
+
+For Customer Register:
+---
+
+```
+http://127.0.0.1:8000/customer/register
+```
+<img width="1914" height="1088" alt="Screenshot 2025-12-13 134346" src="https://github.com/user-attachments/assets/bf598add-e17d-42b3-8ea8-ec30267b6b6d" />
+
+For Customer Login:
+---
+
+```
+http://127.0.0.1:8000/customer/login
+```
+<img width="1914" height="1088" alt="Screenshot 2025-12-13 134410" src="https://github.com/user-attachments/assets/a80edc40-9e7f-4b13-8a3d-8278bc07cdbc" />
+
+For Customer Dashboard:
+---
+
+```
+http://127.0.0.1:8000/customer/dashboard
+```
+<img width="1911" height="1085" alt="Screenshot 2025-12-13 134424" src="https://github.com/user-attachments/assets/4cebe203-b0e3-4cf3-81d2-388b03c2e0f4" />
+
+For Change Password:
+---
+
+```
+http://127.0.0.1:8000/customer/change-password
+```
+<img width="1919" height="1086" alt="Screenshot 2025-12-13 134509" src="https://github.com/user-attachments/assets/45e9c438-329b-42f2-845c-73d988247dc3" />
+
+<img width="1919" height="1092" alt="Screenshot 2025-12-13 134524" src="https://github.com/user-attachments/assets/2c441b5b-f2ad-43be-bab5-4fb865aa4b39" />
+
+For Forgot Password:
+---
+
+```
+http://127.0.0.1:8000/customer/forgot-password
+```
+
+<img width="1919" height="1092" alt="Screenshot 2025-12-13 134616" src="https://github.com/user-attachments/assets/12e5e2de-c5f1-4868-9bef-e54fa5da632a" />
+
+<img width="1172" height="743" alt="Screenshot 2025-12-13 134710" src="https://github.com/user-attachments/assets/6c207e27-8fee-475f-95a9-6f437a00e46d" />
+
+<img width="1917" height="1088" alt="Screenshot 2025-12-13 134745" src="https://github.com/user-attachments/assets/78a66fab-42d6-4091-a741-1ca762ed9559" />
+
+---
+Final Result
+---
 
 
-✔ Fully working customer authentication
-✔ Forgot password with email
-✔ Secure change password
-✔ Laravel 12 compliant
+Fully working customer authentication
+Forgot password with email
+Secure change password
+Laravel 12 compliant
 
-🎉 Project Complete
+Project Complete
 
-Your PHP_Laravel12_Implement_Forgot_And_ChangePassword project is now fully implemented
+Your PHP_Laravel12_Implement_Forgot_And_ChangePassword project is now fully implemented!
 
