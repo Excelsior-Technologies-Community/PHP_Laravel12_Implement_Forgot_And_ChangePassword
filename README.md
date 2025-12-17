@@ -734,12 +734,12 @@ class PasswordController extends Controller
 }
 
 ```
-Step 7: Views
+## Step 7: Views
 ---
 
 We need to create all Blade files for customer auth.
 
-1️) register.blade.php
+#### 1️) register.blade.php
 ---
 
 File: resources/views/customer/auth/register.blade.php
@@ -830,7 +830,7 @@ The form sends a POST request to customer.register.submit and includes CSRF prot
 </html>
 ```
 
-2️) login.blade.php
+#### 2️) login.blade.php
 ---
 
 File: resources/views/customer/auth/login.blade.php
@@ -906,7 +906,7 @@ The form posts to customer.login.submit with CSRF protection.
 </body>
 </html>
 ```
-3️) dashboard.blade.php
+#### 3️) dashboard.blade.php
 ---
 
 File: resources/views/customer/auth/dashboard.blade.php
@@ -956,7 +956,7 @@ The layout is simple, responsive, and styled with Tailwind CSS.
 </body>
 </html>
 ```
-4️) forgot-password.blade.php
+#### 4️) forgot-password.blade.php
 ---
 
 File: resources/views/customer/auth/forgot-password.blade.php
@@ -1020,7 +1020,7 @@ The layout is responsive and clean, using Tailwind CSS.
 </html>
 
 ```
-5️) reset-password.blade.php
+#### 5️) reset-password.blade.php
 ---
 
 File: resources/views/customer/auth/reset-password.blade.php
@@ -1095,7 +1095,7 @@ Shows validation errors or success messages, styled with Tailwind CSS for a clea
 </html>
 ```
 
-6️) change-password.blade.php
+#### 6️) change-password.blade.php
 ---
 
 File: resources/views/customer/auth/change-password.blade.php
@@ -1173,7 +1173,7 @@ Uses Tailwind CSS for a clean, responsive, and modern UI.
 </html>
 
 ```
-Step 8: Mail Class
+## Step 8: Mail Class
 
 ```
 php artisan make:mail ResetPasswordMail
@@ -1258,7 +1258,7 @@ MAIL_FROM_ADDRESS=your@gmail.com
 MAIL_FROM_NAME="Customer App"
 
 ```
-Step 9: Email View (Professional)
+## Step 9: Email View (Professional)
 
 resources/views/emails/reset-password.blade.php
 
@@ -1335,7 +1335,7 @@ Styled with inline CSS and tables to ensure proper display across all email clie
 </html>
 
 ```
-Step 10: Routes (routes/web.php)
+## Step 10: Routes (routes/web.php)
 ```
 
 <?php
