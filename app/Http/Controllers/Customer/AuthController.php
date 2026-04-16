@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Customer;
-
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -43,17 +44,17 @@ class AuthController extends Controller
     {
         // Validate incoming form data
         $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:customers,email',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:customers,email',
             'password' => 'required|min:6|confirmed',
         ]);
 
         // Create customer record
         Customer::create([
-            'name'       => $request->name,
-            'email'      => $request->email,
-            'password'   => Hash::make($request->password), // Encrypt password
-            'status'     => 'active',
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password), // Encrypt password
+            'status' => 'active',
             'created_by' => null, // Admin not used in this simple project
         ]);
 
@@ -81,18 +82,31 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        // Get only email and password from request
-        $credentials = $request->only('email', 'password');
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $key = Str::lower($request->email) . '|' . $request->ip();
+
+        // 🔒 Check attempts (3 tries)
+        if (RateLimiter::tooManyAttempts($key, 3)) {
+            return back()->withErrors([
+                'email' => "Too many login attempts. Try again after 300 seconds."
+            ]);
+        }
 
         // Attempt login using customer guard
-        if (Auth::guard('customer')->attempt($credentials)) {
-            // Login successful → Redirect to dashboard
+        if (Auth::guard('customer')->attempt($request->only('email', 'password'))) {
+            RateLimiter::clear($key); // reset attempts
             return redirect()->route('customer.dashboard');
         }
 
-        // Login failed → Back with error
+        // Failed login → lock for 5 minutes
+        RateLimiter::hit($key, 300);
+
         return back()->withErrors([
-            'email' => 'Invalid email or password',
+            'email' => 'Invalid credentials'
         ]);
     }
 
