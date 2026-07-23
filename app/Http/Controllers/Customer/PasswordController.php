@@ -7,11 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Customer;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
+use App\Models\PasswordHistory;
+use App\Models\ActivityLog;
+use App\Models\OtpVerification;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ResetPasswordMail;
+use App\Mail\OtpMail;
 
 /**
  * PasswordController
@@ -47,36 +48,45 @@ class PasswordController extends Controller
      */
     public function sendResetLink(Request $request)
     {
-        // Validate email and check if it exists in customers table
         $request->validate([
             'email' => 'required|email|exists:customers,email'
         ]);
 
-        // Generate secure random token
-        $token = Str::random(64);
+        $customer = Customer::where('email', $request->email)->first();
 
-        // Insert or update password reset record
-        DB::table('password_resets')->updateOrInsert(
-            ['email' => $request->email],
-            [
-                'email'      => $request->email,
-                'token'      => $token,
-                'created_at' => Carbon::now()
-            ]
-        );
+        $existingOtp = OtpVerification::where('customer_id', $customer->id)
+            ->where('type', 'forgot_password')
+            ->whereNull('verified_at')
+            ->where('expires_at', '>', Carbon::now())
+            ->latest()
+            ->first();
 
-        // Create password reset URL
-        $resetUrl = url('/customer/reset-password/' . $token . '?email=' . $request->email);
+        if ($existingOtp) {
+            return redirect()->route('customer.verify.otp', ['email' => $request->email])
+                ->with('success', 'OTP already sent to your email. Please check your inbox.');
+        }
 
-        // Send reset password email using Mailable class
-        Mail::to($request->email)->send(
-            new ResetPasswordMail($resetUrl)
-        );
+        $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 
-        return back()->with(
-            'success',
-            'We have emailed your password reset link!'
-        );
+        OtpVerification::create([
+            'customer_id' => $customer->id,
+            'otp' => $otp,
+            'type' => 'forgot_password',
+            'expires_at' => Carbon::now()->addMinutes(10),
+        ]);
+
+        Mail::to($request->email)->send(new OtpMail($otp));
+
+        ActivityLog::create([
+            'customer_id' => $customer->id,
+            'type' => 'password_reset',
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'created_at' => Carbon::now(),
+        ]);
+
+        return redirect()->route('customer.verify.otp', ['email' => $request->email])
+            ->with('success', 'OTP sent to your email!');
     }
 
     /**
@@ -85,14 +95,10 @@ class PasswordController extends Controller
      * URL  : /customer/reset-password/{token}
      * View : resources/views/customer/auth/reset-password.blade.php
      */
-    public function showResetForm($token, Request $request)
+    public function showResetForm(Request $request)
     {
         $email = $request->email;
-
-        return view(
-            'customer.auth.reset-password',
-            compact('token', 'email')
-        );
+        return view('customer.auth.verify-otp', compact('email'));
     }
 
     /**
@@ -106,40 +112,35 @@ class PasswordController extends Controller
      */
     public function resetPassword(Request $request)
     {
-        // Validate request data
         $request->validate([
             'email'    => 'required|email|exists:customers,email',
+            'otp'      => 'required|size:6',
             'password' => 'required|min:6|confirmed',
-            'token'    => 'required'
         ]);
 
-        // Check token in password_resets table
-        $reset = DB::table('password_resets')
-            ->where('email', $request->email)
-            ->where('token', $request->token)
+        $customer = Customer::where('email', $request->email)->first();
+
+        $otpRecord = OtpVerification::where('customer_id', $customer->id)
+            ->where('type', 'forgot_password')
+            ->whereNull('verified_at')
+            ->where('expires_at', '>', Carbon::now())
+            ->latest()
             ->first();
 
-        // If token is invalid
-        if (!$reset) {
+        if (!$otpRecord || $otpRecord->otp !== $request->otp) {
             return back()->withErrors([
-                'email' => 'Invalid or expired reset token'
+                'otp' => 'Invalid or expired OTP'
             ]);
         }
 
-        // Get customer and update password
-        $customer = Customer::where('email', $request->email)->first();
+        $otpRecord->update(['verified_at' => Carbon::now()]);
 
         $customer->password = Hash::make($request->password);
         $customer->save();
 
-        // Remove reset token after successful reset
-        DB::table('password_resets')
-            ->where('email', $request->email)
-            ->delete();
-
         return redirect()
             ->route('customer.login')
-            ->with('success', 'Password reset successfully!');
+            ->with('success', 'Password reset successfully! Please login.');
     }
 
     /**
@@ -163,7 +164,6 @@ class PasswordController extends Controller
      */
     public function changePassword(Request $request)
     {
-        // Validate input fields
         $request->validate([
             'current_password' => 'required',
             'new_password'     => 'required|min:6|confirmed',
@@ -172,16 +172,40 @@ class PasswordController extends Controller
         /** @var \App\Models\Customer $customer */
         $customer = Auth::guard('customer')->user();
 
-        // Check if current password matches
         if (!Hash::check($request->current_password, $customer->password)) {
             return back()->withErrors([
                 'current_password' => 'Current password does not match'
             ]);
         }
 
-        // Update password
+        $recentPasswords = $customer->passwordHistories()
+            ->orderByDesc('created_at')
+            ->limit(5)
+            ->pluck('password');
+
+        foreach ($recentPasswords as $oldPassword) {
+            if (Hash::check($request->new_password, $oldPassword)) {
+                return back()->withErrors([
+                    'new_password' => 'You cannot reuse a recent password. Please choose a different one.'
+                ]);
+            }
+        }
+
         $customer->password = Hash::make($request->new_password);
         $customer->save();
+
+        PasswordHistory::create([
+            'customer_id' => $customer->id,
+            'password'    => Hash::make($request->new_password),
+        ]);
+
+        ActivityLog::create([
+            'customer_id' => $customer->id,
+            'type' => 'password_change',
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'created_at' => Carbon::now(),
+        ]);
 
         return back()->with(
             'success',

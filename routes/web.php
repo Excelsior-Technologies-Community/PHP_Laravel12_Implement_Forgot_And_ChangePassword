@@ -55,6 +55,14 @@ Route::prefix('customer')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])
         ->name('customer.login');
 
+    // Show login OTP form
+    Route::get('/login-otp', [AuthController::class, 'showLoginOtpForm'])
+        ->name('customer.login.otp');
+
+    // Verify login OTP
+    Route::post('/login-otp', [AuthController::class, 'verifyLoginOtp'])
+        ->name('customer.login.otp.verify');
+
     // Handle customer login form submission
     Route::post('/login', [AuthController::class, 'login'])
         ->name('customer.login.submit');
@@ -102,15 +110,18 @@ Route::prefix('customer')->group(function () {
     Route::get('/forgot-password', [PasswordController::class, 'showForgotForm'])
         ->name('customer.forgot');
 
-    // Send password reset email
+    // Handle forgot password form submission
     Route::post('/forgot-password', [PasswordController::class, 'sendResetLink'])
         ->name('customer.forgot.submit');
 
-    // Show reset password form (via token)
-    Route::get('/reset-password/{token}', [PasswordController::class, 'showResetForm'])
-        ->name('customer.reset');
+    // Show OTP verification form
+    Route::get('/verify-otp', [PasswordController::class, 'showResetForm'])
+        ->name('customer.verify.otp');
 
-    // Handle reset password submission
+    // Handle OTP verification and password reset
     Route::post('/reset-password', [PasswordController::class, 'resetPassword'])
         ->name('customer.reset.submit');
+
+    Route::get('/activity', [AuthController::class, 'activity'])
+        ->name('customer.activity');
 });
