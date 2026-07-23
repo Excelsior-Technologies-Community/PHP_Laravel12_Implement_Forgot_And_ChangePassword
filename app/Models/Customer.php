@@ -20,45 +20,44 @@ use Illuminate\Auth\Passwords\CanResetPassword;
  */
 class Customer extends Authenticatable
 {
-    /**
-     * TRAITS USED
-     */
-
-    // Enables factory support (useful for testing / seeding)
     use HasFactory;
-
-    // Enables soft delete feature (uses deleted_at column)
     use SoftDeletes;
-
-    // Enables password reset functionality for customer
-    // Required for Forgot Password feature
     use CanResetPassword;
 
-    /**
-     * Mass assignable attributes
-     * These fields can be inserted/updated using Customer::create()
-     */
     protected $fillable = [
-        'name',         // Customer name
-        'email',        // Customer email
-        'password',     // Encrypted password
-        'status',       // active / inactive
-        'created_by',   // Admin who created customer
-        'updated_by',   // Admin who updated customer
+        'name',
+        'email',
+        'password',
+        'status',
+        'created_by',
+        'updated_by',
+        'failed_attempts',
+        'lockout_until',
     ];
 
-    /**
-     * Hidden attributes
-     * These fields will not be shown in JSON responses
-     */
     protected $hidden = [
-        'password',    // Never expose password
+        'password',
     ];
 
-    /**
-     * Guard name
-     * This tells Laravel to use the `customer` auth guard
-     * instead of default `web` guard
-     */
+    protected $casts = [
+        'lockout_until' => 'datetime',
+        'email_verified_at' => 'datetime',
+    ];
+
     protected $guard = 'customer';
+
+    public function passwordHistories()
+    {
+        return $this->hasMany(\App\Models\PasswordHistory::class);
+    }
+
+    public function otpVerifications()
+    {
+        return $this->hasMany(\App\Models\OtpVerification::class);
+    }
+
+    public function activityLogs()
+    {
+        return $this->hasMany(\App\Models\ActivityLog::class);
+    }
 }

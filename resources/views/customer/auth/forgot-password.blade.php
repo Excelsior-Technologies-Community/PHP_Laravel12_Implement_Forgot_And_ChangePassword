@@ -37,7 +37,7 @@
             <!-- Submit button -->
             <button type="submit"
                 class="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-2 px-4 rounded transition duration-200">
-                Send Reset Link
+                Send OTP
             </button>
         </form>
 

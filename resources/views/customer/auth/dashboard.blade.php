@@ -16,11 +16,13 @@
 
         <!-- Navigation links -->
         <div>
-            <!-- Link to Change Password page -->
-            <a href="{{ route('customer.change') }}" class="mr-4 hover:underline">Change Password</a>
-            <!-- Logout link -->
-            <a href="{{ route('customer.logout') }}" class="hover:underline">Logout</a>
-        </div>
+             <!-- Link to Change Password page -->
+             <a href="{{ route('customer.change') }}" class="mr-4 hover:underline">Change Password</a>
+             <!-- Link to Activity page -->
+             <a href="{{ route('customer.activity') }}" class="mr-4 hover:underline">Activity</a>
+             <!-- Logout link -->
+             <a href="{{ route('customer.logout') }}" class="hover:underline">Logout</a>
+         </div>
     </nav>
 
     <!-- Main content area -->
